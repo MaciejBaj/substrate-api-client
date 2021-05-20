@@ -17,7 +17,6 @@
 ///! debugging tool.
 
 #[macro_use]
-extern crate clap;
 
 use std::convert::TryFrom;
 
@@ -26,34 +25,45 @@ use clap::App;
 use sp_core::sr25519;
 
 use substrate_api_client::{Api, Metadata};
-
+use std::fs::File;
 fn main() {
     env_logger::init();
-    let url = get_node_url_from_cli();
+    // let url = get_node_url_from_cli();
 
-    let api = Api::<sr25519::Pair>::new(url).unwrap();
+    let url = "wss://rococo-rpc.polkadot.io";
+
+    // let from = AccountKeyring::Alice.pair();
+    // let api = Api::new(url.to_string())
+    let api = Api::<sr25519::Pair>::new(url.to_string()).unwrap();
+
+    // let api = Api::<sr25519::Pair>::new(url).unwrap();
 
     let meta = Metadata::try_from(api.get_metadata().unwrap()).unwrap();
 
-    meta.print_overview();
-    meta.print_modules_with_calls();
-    meta.print_modules_with_events();
+    // meta.print_overview();
+    // meta.print_modules_with_calls();
+    // meta.print_modules_with_events();
 
     // print full substrate metadata json formatted
     println!(
         "{}",
         Metadata::pretty_format(&api.get_metadata().unwrap())
             .unwrap_or_else(|| "pretty format failed".to_string())
-    )
+    );
+
+    let mut file = File::create("kusama_metadata.txt").unwrap();
+    file.write_all(meta).unwrap();
+
 }
 
-pub fn get_node_url_from_cli() -> String {
-    let yml = load_yaml!("../../src/examples/cli.yml");
-    let matches = App::from_yaml(yml).get_matches();
-
-    let node_ip = matches.value_of("node-server").unwrap_or("ws://127.0.0.1");
-    let node_port = matches.value_of("node-port").unwrap_or("9944");
-    let url = format!("{}:{}", node_ip, node_port);
-    println!("Interacting with node on {}\n", url);
-    url
-}
+// pub fn get_node_url_from_cli() -> String {
+//     let yml = load_yaml!("../../src/examples/cli.yml");
+//     let matches = App::from_yaml(yml).get_matches();
+//
+//     // let node_ip = matches.value_of("node-server").unwrap_or("ws://127.0.0.1");
+//     let node_ip = "wss://rococo-rpc.polkadot.io".to_string();
+//     let node_port = matches.value_of("node-port").unwrap_or("9944");
+//     let url = format!("{}:{}", node_ip, node_port);
+//     println!("Interacting with node on {}\n", url);
+//     url
+// }

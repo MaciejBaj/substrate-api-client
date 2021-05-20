@@ -78,6 +78,7 @@ use events::{EventsDecoder, RawEvent, RuntimeEvent};
 use sp_runtime::{generic::SignedBlock, AccountId32 as AccountId, MultiSignature};
 
 pub extern crate sp_runtime;
+pub extern crate sp_core;
 
 pub use sp_core::H256 as Hash;
 

@@ -27,6 +27,7 @@ version = "2.0.0"
 default-features = false
 
 [dependencies.metadata]
+version = "13.0.0"
 git = "https://github.com/paritytech/substrate.git"
 package = "frame-metadata"
 default-features=false

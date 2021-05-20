@@ -49,8 +49,6 @@ fn main() {
     // send and watch extrinsic until InBlock
     let tx_hash = api
         .send_extrinsic(xt.hex_encode(), XtStatus::InBlock)
-        .unwrap();
-    println!("[+] Transaction got included. Hash: {:?}", tx_hash);
 }
 
 pub fn get_node_url_from_cli() -> String {

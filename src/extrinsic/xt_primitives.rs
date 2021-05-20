@@ -24,7 +24,8 @@ use codec::{Compact, Decode, Encode, Error, Input};
 //use indices::address::Address;
 use sp_core::blake2_256;
 use sp_core::H256;
-use sp_runtime::{generic::Era, MultiSignature};
+pub use sp_runtime::{generic::Era, MultiSignature};
+
 
 pub use sp_runtime::{AccountId32 as AccountId, MultiAddress};
 

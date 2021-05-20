@@ -46,11 +46,11 @@ pub enum MetadataError {
     MapValueTypeError,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 pub struct Metadata {
-    modules: HashMap<String, ModuleMetadata>,
-    modules_with_calls: HashMap<String, ModuleWithCalls>,
-    modules_with_events: HashMap<String, ModuleWithEvents>,
+    pub modules: HashMap<String, ModuleMetadata>,
+    pub modules_with_calls: HashMap<String, ModuleWithCalls>,
+    pub modules_with_events: HashMap<String, ModuleWithEvents>,
 }
 
 impl Metadata {
@@ -199,9 +199,9 @@ impl Metadata {
 
 #[derive(Clone, Debug)]
 pub struct ModuleMetadata {
-    index: u8,
-    name: String,
-    storage: HashMap<String, StorageMetadata>,
+    pub index: u8,
+    pub name: String,
+    pub storage: HashMap<String, StorageMetadata>,
     // constants
 }
 
@@ -236,9 +236,9 @@ impl ModuleWithCalls {
 
 #[derive(Clone, Debug)]
 pub struct ModuleWithEvents {
-    index: u8,
-    name: String,
-    events: HashMap<u8, ModuleEventMetadata>,
+    pub index: u8,
+    pub name: String,
+    pub events: HashMap<u8, ModuleEventMetadata>,
 }
 
 impl ModuleWithEvents {
@@ -518,7 +518,7 @@ impl TryFrom<RuntimeMetadataPrefixed> for Metadata {
             return Err(ConversionError::InvalidPrefix.into());
         }
         let meta = match metadata.1 {
-            RuntimeMetadata::V12(meta) => meta,
+            RuntimeMetadata::V13(meta) => meta,
             _ => return Err(ConversionError::InvalidVersion.into()),
         };
         let mut modules = HashMap::new();
